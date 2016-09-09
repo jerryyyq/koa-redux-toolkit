@@ -4,6 +4,8 @@ import Router from 'koa-router'
 import StaticRouter from 'koa-static'
 //var StaticRouter = require('koa-static');
 
+import { get_user_info } from './server/user-info'
+
 var app = koa();
 
 //var Keygrip = require('keygrip')
@@ -42,11 +44,12 @@ myRouter.get('/server/aaa', function *(next)
     this.body = 'What are you doning?';
 });
 
-myRouter.get('/server/bbb', function *(next)
+myRouter.get('/server/getuserinfo/:id', function *(next)
 {
-    console.log('/bbb');
+    console.log('/getuserinfo params = ', this.params.id);
 
-    this.body = 'What are you doning? b';
+    var result = yield get_user_info( this.params.id );
+    this.body = JSON.stringify( result[0] );
 });
 
 myRouter.get('/server/test/:id', function *(next)

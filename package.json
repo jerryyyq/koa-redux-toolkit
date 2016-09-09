@@ -29,7 +29,7 @@
     "koa": "^1.2.1",
     "koa-router": "^5.4.0",
     "koa-static": "^2.0.0",
-    "node-mysql": "^0.4.2"
+    "mysql-co": "0.0.4"
   },
   "devDependencies": {
     "babel-preset-es2015": "^6.14.0",
