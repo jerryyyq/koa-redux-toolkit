@@ -117,6 +117,7 @@ app.use(StaticRouter(__dirname + '/client'));
 app.listen(3001);
 
 const localip = ip.address()
-console.log(`koa web server running at: http://${localip}:3001, dirname = ${__dirname}`);
+console.log(`koa web server running at: http://${localip}:3001/, dirname = ${__dirname}`);
+
 
 
