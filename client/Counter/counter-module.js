@@ -99,18 +99,23 @@ function mapDispatchToProps(dispatch) {
     };
 }
 
-/////////////////////////////////////// 在 store 创建对应节点，并创建出绑定后的对象 //////////////////////////
-
-export default function CreateCounter(store) {
+/////////////////////////////////////// 在 store 创建对应节点，并绑定对应的 Reducer //////////////////////////
+export function injectCounterReducer(store)
+{
     console.log("in CreateCounter, store = ", store);
     let states1 = store.getState();
     console.log("in CreateCounter, states1 = ", states1);
-
+    
     global_store.inject_reducer( {key: 'counter', reducer: counter_reducer} );
 
     let states2 = store.getState();
     console.log("in CreateCounter, states2 = ", states2, " global_store = ", global_store);
+}
 
+/////////////////////////////////////// 创建出绑定后的对象 //////////////////////////
+
+export default function CreateCounter(store) 
+{
     //通过react-redux提供的connect方法将我们需要的state中的数据和actions中的方法绑定到props上
     return connect(mapStateToProps, mapDispatchToProps)(Counter);
 };

@@ -4,8 +4,8 @@ import mysql from 'mysql-co'
 import co from 'co';
 
 var options = {
-    host: '192.168.2.252',  
-    user: 'yangyuqi',  
+    host: 'localhost',  //'192.168.2.252'
+    user: 'jerry',      //'yangyuqi'
     password: '123456',  
     database: 'yyqtestdb',  
     port: 3306  
@@ -37,7 +37,7 @@ export default function (sql)
         var db = yield pool.getConnection();
         var result = yield db.query(sql);
         console.log( "query sql = ", sql, " result = ", result );
-        db.end();
+        db.release();  //db.end();
         return result;
     });
 }

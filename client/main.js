@@ -9,7 +9,8 @@ import { Provider } from 'react-redux'
 import classes from './app-style.scss'
 
 import global_store from './app-store'
-import CreateCounter from './Counter/counter-module'
+import CreateCounter, {injectCounterReducer} from './Counter/counter-module'
+import CreateUserTable, {injectUserInfoReducer} from './UserInfo/userinfo-module'
 //import CreateLogin from './Login/login-module'
 
 // ========================================================
@@ -40,6 +41,7 @@ const MainContainer = ({ children }) => (
     <h1>yangyuqi's mysql-koa-react-redux toolkit</h1>
     <p><Link to="/">Home</Link></p>
     <p><Link to="/counter">Counter</Link></p>
+    <p><Link to="/userinfo">UserInfo</Link></p>
     <p><Link to="/login">Login</Link></p>
     <div className={classes.mainContainer}>
         { children }
@@ -71,7 +73,8 @@ const appRoutes = (store) => ({
 let Counter = CreateCounter(appStore);
 
 const appRoutes = <Route path='/' component={MainContainer} indexRoute={Welcome}>
-                      <Route path='counter' component={Counter} />
+                      <Route path='counter' component={Counter} onEnter={injectCounterReducer(appStore)}/>
+                      <Route path='userinfo' component={CreateUserTable(appStore)} onEnter={injectUserInfoReducer(appStore)} />
                   </Route>;
 
 

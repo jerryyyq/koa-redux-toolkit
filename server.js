@@ -50,6 +50,7 @@ myRouter.get('/server/getuserinfo/:id', function *(next)
 
     var result = yield get_user_info( this.params.id );
     this.body = JSON.stringify( result[0] );
+     console.log('/getuserinfo finish');
 });
 
 myRouter.get('/server/test/:id', function *(next)

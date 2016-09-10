@@ -1,5 +1,4 @@
 import query from './lib/mysql-query'
-import co from 'co'
 
 /*
 export function get_user_info( userid )
