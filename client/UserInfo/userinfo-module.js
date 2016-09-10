@@ -16,18 +16,15 @@ function refresh_action( data )
 
 //////////////////////////////////////// 绑定 action 和 dispatch 到组件 ///////////////////////
 const mapStateToProps = (state) => ({
-    dataSource: state.userinfo.data,
-    columns: state.userinfo.columns
+    dataSource: state.data,
+    columns: state.columns
 });
 
 //将action的所有方法绑定到props上
 function mapDispatchToProps(dispatch) {
     //return bindActionCreators(CounterActions, dispatch)
     return{
-        increment: () => dispatch( increment_action() ),
-        decrement: () => dispatch( decrement_action() ),
-        incrementIfOdd: () => incrementIfOdd_action2( dispatch, global_store.store.getState() ),
-        incrementAsync: () => incrementAsync_action()
+
     };
 }
 
@@ -52,7 +49,7 @@ const table_columns = [
 ];
 
 
-const initState = { data:[], columns:table_columns }
+const initState = { data:[{key:1, ID:1, name:'z', sex:0}], columns:table_columns }
 
 
 function userinfo_reducer(state = initState, action) 
@@ -70,13 +67,17 @@ function userinfo_reducer(state = initState, action)
 /////////////////////////////////// 获得服务端数据 ///////////////////////////////
 var get_user_info = (userid) =>
 {
-    fetch( 'http://localhost:3001/server/getuserinfo/' + userid ).then( 
+    fetch( 'http://localhost:3001/server/getuserinfo/' + userid, {mode: 'no-cors'} ).then( 
         function(res){
             return res.json();
-        }
-    ).then(function(json){
+        })
+    .then(function(json){
         console.log(json);
+        global_store.dispatch( refresh_action(json) )
     })
+    .catch(function(error){
+        console.log('Request failed, error = ', error);
+    });
 }
 
 

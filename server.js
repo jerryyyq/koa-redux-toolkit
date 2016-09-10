@@ -13,8 +13,7 @@ var app = koa();
 app.keys = ['im a newer secret', 'i like turtle'];
 
 app.on('error', function(err){
-    log.error('server error', err);
-    console.log('server error - %s', err);
+    console.log('server error = ', err);
 });
 
 
@@ -29,8 +28,7 @@ myRouter.all('/', function *(next)
     }
     catch(err)
     {
-        log.error('server error', err);
-        console.log('server error - %s', err);
+        console.log('/ server error = ', err);
 
 	    this.status = err.status;
 	    this.body = err.message;
@@ -49,6 +47,8 @@ myRouter.get('/server/getuserinfo/:id', function *(next)
     console.log('/getuserinfo params = ', this.params.id);
 
     var result = yield get_user_info( this.params.id );
+
+    this.response.set('Access-Control-Allow-Origin', '*');
     this.body = JSON.stringify( result[0] );
      console.log('/getuserinfo finish');
 });

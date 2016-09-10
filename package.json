@@ -3,6 +3,10 @@
   "version": "1.0.0",
   "description": "koa mysql react redux toolkit",
   "main": "server.js",
+  "engines": {
+    "node": ">=4.5.0",
+    "npm": "^3.0.0"
+  },  
   "keywords": [
     "koa",
     "mysql",
