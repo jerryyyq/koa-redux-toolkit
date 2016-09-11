@@ -49,7 +49,7 @@ const table_columns = [
 ];
 
 
-const initState = { data:[{key:1, ID:1, name:'z', sex:0}], columns:table_columns }
+const initState = { data:[{ID:1, name:'z', sex:0}], columns:table_columns }
 
 
 function userinfo_reducer(state = initState, action) 
