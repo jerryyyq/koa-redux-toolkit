@@ -16,8 +16,8 @@ function refresh_action( data )
 
 //////////////////////////////////////// 绑定 action 和 dispatch 到组件 ///////////////////////
 const mapStateToProps = (state) => ({
-    dataSource: state.data,
-    columns: state.columns
+    dataSource: state.user_info.data,
+    columns: state.user_info.columns
 });
 
 //将action的所有方法绑定到props上
@@ -56,7 +56,7 @@ function userinfo_reducer(state = initState, action)
 {
   switch (action.type) {
     case REFRESH_DATA:
-      return { data: action.data, columns: state.columns }
+      return { data: action.payload, columns: state.columns }
 
     default:
       return state
@@ -72,8 +72,8 @@ var get_user_info = (userid) =>
             return res.json();
         })
     .then(function(json){
-        console.log(json);
-        global_store.dispatch( refresh_action(json) )
+        console.log("receive server data, json = ", json);
+        global_store.store.dispatch( refresh_action(json) )
     })
     .catch(function(error){
         console.log('Request failed, error = ', error);
@@ -88,7 +88,7 @@ export function injectUserInfoReducer(store)
     let states1 = store.getState();
     console.log("in injectUserInfoReducer, states1 = ", states1);
     
-    global_store.inject_reducer( {key: 'user-info', reducer: userinfo_reducer} );
+    global_store.inject_reducer( {key: 'user_info', reducer: userinfo_reducer} );
 
     let states2 = store.getState();
     console.log("in injectUserInfoReducer, states2 = ", states2, " global_store = ", global_store);
