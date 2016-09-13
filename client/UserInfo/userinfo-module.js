@@ -49,7 +49,7 @@ const table_columns = [
 ];
 
 
-const initState = { data:[{ID:1, name:'z', sex:0}], columns:table_columns }
+const initState = { data:[{id:1, name:'z', sex:0}], columns:table_columns }
 
 
 function userinfo_reducer(state = initState, action) 
@@ -101,6 +101,11 @@ export function injectUserInfoReducer(store)
 
 export default function CreateUserTable(store) 
 {
+    global_store.inject_reducer( {key: 'user_info', reducer: userinfo_reducer} );
+    let states2 = store.getState();
+    console.log( "in CreateCounter, states2 = ", states2, " global_store.state = ", global_store.store.getState() );
+    
+    setTimeout(get_user_info("1"), 2000);
     //通过react-redux提供的connect方法将我们需要的state中的数据和actions中的方法绑定到props上
     return connect(mapStateToProps, mapDispatchToProps)(Table);
 };

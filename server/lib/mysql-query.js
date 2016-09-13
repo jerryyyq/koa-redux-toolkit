@@ -4,8 +4,8 @@ import mysql from 'mysql-co'
 import co from 'co';
 
 var options = {
-    host: 'localhost',  //'192.168.2.252'
-    user: 'jerry',      //'yangyuqi'
+    host: '192.168.2.252',  //'192.168.2.252', 'localhost'
+    user: 'yangyuqi',      //'yangyuqi', 'jerry'
     password: '123456',  
     database: 'yyqtestdb',  
     port: 3306  

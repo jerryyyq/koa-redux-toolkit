@@ -9,9 +9,11 @@ import { Provider } from 'react-redux'
 import classes from './app-style.scss'
 
 import global_store from './app-store'
-import CreateCounter, {injectCounterReducer} from './Counter/counter-module'
-import CreateUserTable, {injectUserInfoReducer} from './UserInfo/userinfo-module'
+//import CreateCounter, {injectCounterReducer} from './Counter/counter-module'
+//import CreateUserTable, {injectUserInfoReducer} from './UserInfo/userinfo-module'
 //import CreateLogin from './Login/login-module'
+
+
 
 // ========================================================
 // Developer Tools Setup
@@ -58,25 +60,69 @@ const Welcome = () => (
 )
 
 /*
-const appRoutes = (store) => ({
-  path: '/',
-  component: MainContainer,
-  indexRoute: Welcome,
-  childRoutes: [
-    CounterRoute(store)
-//    LoginRoute(store),
-  ]
-})
+const CreateChildRoute = (child_path, child_module_path, store) => ({
+    path: child_path,
+    getComponent: (nextState, cb) => 
+    {
+        require.ensure([], (require) => 
+        {
+            let ItemCreate = require( child_module_path ).default;
+            console.log('ItemCreate = ', ItemCreate);
+            cb(null, ItemCreate(store))
+        // Webpack named bundle    
+        }, child_path)
+    }  
+});
 */
 
+console.log("CreateChildRoute = ", CreateChildRoute);
 
+const appRoutes = (store) => ({
+    path: '/',
+    component: MainContainer,
+    indexRoute: Welcome,
+
+    childRoutes: 
+    [
+        { 
+            path: 'counter',
+            getComponent: (nextState, cb) => 
+            {
+                require.ensure([], (require) => 
+                {
+                    var ItemCreate = require('./Counter/counter-module').default;
+                    console.log('ItemCreate = ', ItemCreate);
+                    cb(null, ItemCreate(store))
+                })
+            }
+        },
+
+        //CreateChildRoute('userinfo', './UserInfo/userinfo-module', store),
+        {
+            path: 'userinfo',
+            getComponent: (nextState, cb) =>
+            {
+                require.ensure([], (require) =>
+                {
+                    var ItemCreate = require('./UserInfo/userinfo-module').default;
+                    console.log('ItemCreate = ', ItemCreate);
+                    cb(null, ItemCreate(store))
+                })
+            }
+        },
+
+        //CreateChildRoute('login', './Login/login-module', store) //
+    ]
+});
+
+
+/*
 let Counter = CreateCounter(appStore);
-
 const appRoutes = <Route path='/' component={MainContainer} indexRoute={Welcome}>
                       <Route path='counter' component={Counter} onEnter={injectCounterReducer(appStore)}/>
                       <Route path='userinfo' component={CreateUserTable(appStore)} onEnter={injectUserInfoReducer(appStore)} />
                   </Route>;
-
+*/
 
 
 const appHistory = hashHistory
@@ -86,7 +132,7 @@ const appHistory = hashHistory
 // render
 ReactDOM.render(
   <Provider store={appStore} key="yyq-s" >
-    <Router history={appHistory} routes={appRoutes} />
+    <Router history={appHistory} routes={appRoutes(appStore)} />
   </Provider>,
   document.getElementById('root')
 )

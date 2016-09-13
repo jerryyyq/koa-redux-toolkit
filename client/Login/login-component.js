@@ -49,14 +49,5 @@ LoginForm.propTypes = {
     //handleSubmit: React.PropTypes.func.isRequired
 }
 
-const mapStateToProps = (state) => ({
-    userName: state.username,
-    password: state.password,
-    agreement: state.agreement
-})
 
-const mapActionCreators = {
-    handleSubmit:() => onLoginSubmit()
-}
-
-export default connect(mapStateToProps, mapActionCreators)(LoginForm)
+export default LoginForm
