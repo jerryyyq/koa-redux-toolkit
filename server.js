@@ -53,6 +53,19 @@ myRouter.get('/server/getuserinfo/:id', function *(next)
      console.log('/getuserinfo finish');
 });
 
+
+myRouter.get('/server/checkuserlogin', function *(next)
+{
+    console.log('/getuserinfo params = ', this.params.id);
+
+    var result = yield get_user_info( this.params.id );
+
+    this.response.set('Access-Control-Allow-Origin', '*');
+    this.body = JSON.stringify( result[0] );
+     console.log('/getuserinfo finish');
+});
+
+
 myRouter.get('/server/test/:id', function *(next)
 {
     console.log('/test');

@@ -2,7 +2,7 @@ import { connect } from 'react-redux'
 import global_store from '../app-store'
 import fetch from 'node-fetch'
 import {Table} from 'antd'
-
+import 'antd/dist/antd.css'
 
 const REFRESH_DATA = 'REFRESH_DATA'
 
@@ -102,8 +102,7 @@ export function injectUserInfoReducer(store)
 export default function CreateUserTable(store) 
 {
     global_store.inject_reducer( {key: 'user_info', reducer: userinfo_reducer} );
-    let states2 = store.getState();
-    console.log( "in CreateCounter, states2 = ", states2, " global_store.state = ", global_store.store.getState() );
+    console.log( " global_store.state = ", global_store.store.getState() );
     
     setTimeout(get_user_info("1"), 2000);
     //通过react-redux提供的connect方法将我们需要的state中的数据和actions中的方法绑定到props上

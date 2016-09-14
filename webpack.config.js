@@ -17,7 +17,7 @@ module.exports = {
         //加载器配置
         loaders: [
             { test: /\.js$/, exclude: /node_modules/, loader: 'babel-loader' },
-            { test: /\.scss$/, loader: 'style!css!sass?sourceMap'},
+            { test: /\.(css|scss)$/, loader: 'style!css!sass?sourceMap'},
             { test: /\.less/, loader: 'style!css!less?sourceMap'},
             { test: /\.json$/, loader: 'json-loader'},
         ]

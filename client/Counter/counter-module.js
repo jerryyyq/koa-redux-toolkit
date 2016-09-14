@@ -117,8 +117,8 @@ export function injectCounterReducer(store)
 export default function CreateCounter(store) 
 {
     global_store.inject_reducer( {key: 'counter', reducer: counter_reducer} );
-    let states2 = store.getState();
-    console.log( "in CreateCounter, states2 = ", states2, " global_store.state = ", global_store.store.getState() );
+    //let states2 = store.getState();
+    console.log( " global_store.state = ", global_store.store.getState() );
 
     //通过react-redux提供的connect方法将我们需要的state中的数据和actions中的方法绑定到props上
     return connect(mapStateToProps, mapDispatchToProps)(Counter);

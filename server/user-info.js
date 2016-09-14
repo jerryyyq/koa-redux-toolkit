@@ -31,11 +31,13 @@ export function get_user_info( userid )
 
 export function get_user_info ( userid )
 {
-    
+    console.log("userid = ", userid)
+    //debugger
     let sql = "SELECT * FROM user"
-    if( !undefined === userid )
+    if( undefined !== userid )
         sql += " WHERE id = " + userid
 
+    console.log("sql = ", sql)
     return query(sql);
 }
 

@@ -43,7 +43,7 @@ $ npm install
 请注意：为了简化框架，没有进行热加载，所以：每次更改代码后，需要重新编译并重新启动服务。
 
 ```bash
-$ npm run build
+$ npm run build-debug
 ```
 
 * 最后，启动服务

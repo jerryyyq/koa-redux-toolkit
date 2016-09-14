@@ -1,38 +1,28 @@
 import React, { Component, PropTypes } from 'react'
 import { connect } from 'react-redux'
-
 import { onLoginSubmit } from './login-module'
 
 import { Form, Input, Button, Checkbox } from 'antd';
+import 'antd/dist/antd.css'
+
 const FormItem = Form.Item;
 
 export class LoginForm extends Component
 {
-    handleSubmit(e)
-    {
-        e.preventDefault();
-        console.log('收到表单值：', this.props.form.getFieldsValue());
-    };
-
     render() 
     {
-        const { userName, password, agreement } = this.props;
         return (
-        <Form inline onSubmit={this.handleSubmit}>
+        <Form inline onSubmit={this.props.handleSubmit}>
             <FormItem label="账户">
-            <Input placeholder="请输入账户名"
-                value={ userName }
-            />
+            <Input placeholder="请输入账户名" name="name" onChange={this.props.handleNameChange} value={ this.props.userName } />
             </FormItem>
 
             <FormItem label="密码">
-            <Input type="password" placeholder="请输入密码"
-                value={ password }
-            />
+            <Input type="password" name="pwd" placeholder="请输入密码" onChange={this.props.handlePasswordChange} value={ this.props.password } />
             </FormItem>
 
             <FormItem>
-            <Checkbox value={ agreement }>记住我</Checkbox>
+            <Checkbox name="agree" onChange={this.props.handleAgreeChange} value={ this.props.agreement }>记住我</Checkbox>
             </FormItem>
 
             <Button type="primary" htmlType="submit">登录</Button>
@@ -45,8 +35,11 @@ export class LoginForm extends Component
 LoginForm.propTypes = {
     userName: React.PropTypes.string,
     password: React.PropTypes.string,
-    agreement: React.PropTypes.bool
-    //handleSubmit: React.PropTypes.func.isRequired
+    agreement: React.PropTypes.bool,
+    handleNameChange: React.PropTypes.func.isRequired,
+    handlePasswordChange: React.PropTypes.func.isRequired,
+    handleAgreeChange: React.PropTypes.func.isRequired,
+    handleSubmit: React.PropTypes.func.isRequired
 }
 
 
