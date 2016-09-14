@@ -67,7 +67,7 @@ function userinfo_reducer(state = initState, action)
 /////////////////////////////////// 获得服务端数据 ///////////////////////////////
 var get_user_info = (userid) =>
 {
-    fetch( 'http://localhost:3001/server/getuserinfo/' + userid, {mode: 'no-cors'} ).then( 
+    fetch( 'http://192.168.2.253:3001/server/getuserinfo/' + userid, {mode: 'cors'} ).then( 
         function(res){
             return res.json();
         })

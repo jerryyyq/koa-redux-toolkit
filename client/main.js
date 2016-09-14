@@ -73,9 +73,9 @@ const CreateChildRoute = (child_path, child_module_path, store) => ({
         }, child_path)
     }  
 });
-*/
 
 console.log("CreateChildRoute = ", CreateChildRoute);
+*/
 
 const appRoutes = (store) => ({
     path: '/',
@@ -111,18 +111,38 @@ const appRoutes = (store) => ({
             }
         },
 
-        //CreateChildRoute('login', './Login/login-module', store) //
+        {
+            path: 'login',
+            getComponent: (nextState, cb) =>
+            {
+                require.ensure([], (require) =>
+                {
+                    var ItemCreate = require('./Login/login-module').default;
+                    console.log('ItemCreate = ', ItemCreate);
+                    cb(null, ItemCreate(store))
+                })
+            }
+        },
     ]
 });
 
 
 /*
-let Counter = CreateCounter(appStore);
 const appRoutes = <Route path='/' component={MainContainer} indexRoute={Welcome}>
-                      <Route path='counter' component={Counter} onEnter={injectCounterReducer(appStore)}/>
+                      <Route path='counter' component={CreateCounter(appStore)} onEnter={injectCounterReducer(appStore)}/>
                       <Route path='userinfo' component={CreateUserTable(appStore)} onEnter={injectUserInfoReducer(appStore)} />
                   </Route>;
 */
+
+
+var CreateCounter = require('react-router!./Counter/counter-module');
+var CounterDefault = require('react-router!./Counter/counter-module').default;
+console.log("CreateCounter = ", CreateCounter, " CounterDefault = ", CounterDefault);
+
+const appRoutes2 = <Route path='/' component={MainContainer} indexRoute={Welcome}>
+                      <Route path='counter' component={require('react-router!./Counter/counter-module')} />
+                      <Route path='userinfo' component={require('react-router!./UserInfo/userinfo-module')} />
+                  </Route>;
 
 
 const appHistory = hashHistory
@@ -130,10 +150,11 @@ const appHistory = hashHistory
 //const appHistory = useRouterHistory(createHashHistory)({ queryKey: false })
 
 // render
+        //<Router history={appHistory} routes={appRoutes2} />
 ReactDOM.render(
-  <Provider store={appStore} key="yyq-s" >
-    <Router history={appHistory} routes={appRoutes(appStore)} />
-  </Provider>,
-  document.getElementById('root')
+    <Provider store={appStore} key="yyq-s" >
+        <Router history={appHistory} routes={appRoutes(appStore)} />
+    </Provider>,
+    document.getElementById('root')
 )
 
