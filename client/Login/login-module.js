@@ -18,12 +18,11 @@ function setComponentProperty(action_type, action_value)
     return {type: action_type, value: action_value}
 }
 
-function onLoginSubmit(username, password, agreement) {
+function setLoginSubmit(result, err) {
     return {
         type: LOGIN_FORM_SUBMIT,
-        username: username,
-        password: password,
-        agreement: agreeemnt
+        result: result,
+        error: err
     }
 }
 
@@ -66,29 +65,32 @@ const mapDispatchToProps = {
     handleAgreeChange: e => setComponentProperty(SET_AGREEMENT, e.target.checked),        
     handleSubmit: e => 
     {
-        console.log("receive server data, e.target = ", e.target);
-    //    let datas = e.target.map( x=>({name:x.name, value:x.value}) )
-    //    let datas2=[];
-    //    for (var key in e.target) 
-    //    {
-    //        datas2.push( {name:key.name, value:key.value} );
-    //    }
+        e.preventDefault();
+        console.log("receive server data, e.target = ", e.target, " this = ", this, 
+            " name = ", e.target.name, " userName = ", e.target.userName, " props = ", e.target.props);
 
+        if(!e.target.agree.checked)
+        {
+            alert("请同意协议");
+            return setLoginSubmit(true, "请同意协议");
+        }
 
-        let data = JSON.stringify({a: 1, b: 2})
-        fetch( 'http://192.168.2.253:3001/server/checkuserlogin/', {mode: 'cors', method: "POST", body: data} ).then( 
+        let logindata = JSON.stringify( {username:e.target.name.value, password:e.target.pwd.value} )
+        fetch( 'http://192.168.2.253:3001/server/checkuserlogin/', {mode: 'cors', method: "POST", body: logindata} ).then( 
             function(res){
                 return res.json();
             })
         .then(function(json){
             console.log("receive server data, json = ", json);
             //global_store.store.dispatch( refresh_action(json) )
+
+
+            
         })
         .catch(function(error){
             console.log('Request failed, error = ', error);
+            return setLoginSubmit(false, error);
         });
-        
-        //if (agreement != )
     }
 }
 
