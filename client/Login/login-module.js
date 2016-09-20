@@ -7,7 +7,7 @@ import LoginForm from './login-component'
 // ------------------------------------
 const SET_USER_NAME = 'SET_USER_NAME'
 const SET_PASSWORD = 'SET_PASSWORD'
-const SET_AGREEMENT = 'SET_AGREEMENT'
+const SET_REMEMBER = 'SET_REMEMBER'
 const LOGIN_FORM_SUBMIT = 'LOGIN_FORM_SUBMIT'
 
 // ------------------------------------
@@ -29,7 +29,7 @@ function setLoginSubmit(result, err) {
 // ------------------------------------
 // Reducer
 // ------------------------------------
-const initialState = {username:'yyq', password:'', agreeemnt:false}
+const initialState = {username:'YYQ', password:'', remember:false}
 function loginFormReducer (state = initialState, action) 
 {
     let newState = Object.assign({}, state)
@@ -41,11 +41,11 @@ function loginFormReducer (state = initialState, action)
         case SET_PASSWORD:
             newState.password = action.value
             return newState
-        case SET_AGREEMENT:
-            newState.agreeemnt = action.value
+        case SET_REMEMBER:
+            newState.remember = action.value
             return newState
         case LOGIN_FORM_SUBMIT:
-            // fetch: action.username, action.password, action.agreement
+            // fetch: action.username, action.password, action.remember
 
 
         default:
@@ -56,27 +56,27 @@ function loginFormReducer (state = initialState, action)
 const mapStateToProps = (state) => ({
     userName: state.login.username,
     password: state.login.password,
-    agreement: state.login.agreement
+    remember: state.login.remember
 })
 
 const mapDispatchToProps = {
     handleNameChange: e => setComponentProperty(SET_USER_NAME, e.target.value),
     handlePasswordChange: e => setComponentProperty(SET_PASSWORD, e.target.value),
-    handleAgreeChange: e => setComponentProperty(SET_AGREEMENT, e.target.checked),        
+    handleAgreeChange: e => setComponentProperty(SET_REMEMBER, e.target.checked),        
     handleSubmit: e => 
     {
         e.preventDefault();
         console.log("receive server data, e.target = ", e.target, " this = ", this, 
             " name = ", e.target.name, " userName = ", e.target.userName, " props = ", e.target.props);
-
+/*
         if(!e.target.agree.checked)
         {
             alert("请同意协议");
             return setLoginSubmit(true, "请同意协议");
         }
-
-        let logindata = JSON.stringify( {username:e.target.name.value, password:e.target.pwd.value} )
-        fetch( 'http://192.168.2.253:3001/server/checkuserlogin/', {mode: 'cors', method: "POST", body: logindata} ).then( 
+*/
+        let logindata = JSON.stringify( {username:e.target.name.value, password:e.target.pwd.value, remember:e.target.remember.checked} )
+        fetch( 'http://192.168.2.253:3001/server/checkuserlogin', {mode: 'cors', method: "POST", body: logindata} ).then( 
             function(res){
                 return res.json();
             })

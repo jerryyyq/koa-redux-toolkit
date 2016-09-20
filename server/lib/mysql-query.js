@@ -30,12 +30,24 @@ export default function* query( sql )
 
 var pool = mysql.createPool( options );
 
-export default function (sql) 
+export function mysql_query(sql) 
 {
     return co(function *() 
     {
         var db = yield pool.getConnection();
         var result = yield db.query(sql);
+        console.log( "query sql = ", sql, " result = ", result );
+        db.release();  //db.end();
+        return result;
+    });
+}
+
+export function mysql_execute(sql) 
+{
+    return co(function *() 
+    {
+        var db = yield pool.getConnection();
+        var result = yield db.execute(sql);
         console.log( "query sql = ", sql, " result = ", result );
         db.release();  //db.end();
         return result;

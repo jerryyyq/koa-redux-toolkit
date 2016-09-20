@@ -89,7 +89,8 @@ const mapStateToProps = (state) => ({
 });
 
 //将action的所有方法绑定到props上
-function mapDispatchToProps(dispatch) {
+function mapDispatchToProps(dispatch) 
+{
     //return bindActionCreators(CounterActions, dispatch)
     return{
         increment: () => dispatch( increment_action() ),

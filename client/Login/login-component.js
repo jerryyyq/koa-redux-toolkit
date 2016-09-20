@@ -22,7 +22,7 @@ export class LoginForm extends Component
             </FormItem>
 
             <FormItem>
-            <Checkbox name="agree" onChange={this.props.handleAgreeChange} value={ this.props.agreement }>记住我</Checkbox>
+            <Checkbox name="remember" onChange={this.props.handleAgreeChange} value={ this.props.remember }>记住我</Checkbox>
             </FormItem>
 
             <Button type="primary" htmlType="submit">登录</Button>
@@ -35,7 +35,7 @@ export class LoginForm extends Component
 LoginForm.propTypes = {
     userName: React.PropTypes.string,
     password: React.PropTypes.string,
-    agreement: React.PropTypes.bool,
+    remember: React.PropTypes.bool,
     handleNameChange: React.PropTypes.func.isRequired,
     handlePasswordChange: React.PropTypes.func.isRequired,
     handleAgreeChange: React.PropTypes.func.isRequired,

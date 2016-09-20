@@ -2,19 +2,11 @@ import koa from 'koa';
 import ip from 'ip'
 import Router from 'koa-router'
 import StaticRouter from 'koa-static'
-//var StaticRouter = require('koa-static');
+import KoaBody from 'koa-body'
+import Session from 'koa-generic-session';
+import RedisStore from 'koa-redis';
 
-import { get_user_info } from './server/user-info'
-
-var app = koa();
-
-//var Keygrip = require('keygrip')
-//app.keys = new Keygrip(['im a newer secret', 'i like turtle'], 'sha256');
-app.keys = ['im a newer secret', 'i like turtle'];
-
-app.on('error', function(err){
-    console.log('server error = ', err);
-});
+import { get_user_info, set_user_password, check_user_password } from './server/user-info'
 
 
 
@@ -42,6 +34,13 @@ myRouter.get('/server/aaa', function *(next)
     this.body = 'What are you doning?';
 });
 
+myRouter.all('/server/bbb', function *(next)
+{
+    console.log( '/bbb body = ', this.request.body );
+    //this.throw(403, 'What are you doing? a');
+    this.body = 'What are you doning?';
+});
+
 myRouter.get('/server/getuserinfo/:id', function *(next)
 {
     console.log('/getuserinfo params = ', this.params.id);
@@ -53,16 +52,24 @@ myRouter.get('/server/getuserinfo/:id', function *(next)
      console.log('/getuserinfo finish');
 });
 
-
-myRouter.get('/server/checkuserlogin', function *(next)
+//curl -l -H "Content-type: application/json" -X POST -d '{"username":"YYQ","password":"1234","remember":true}' http://localhost:3001/server/checkuserlogin
+myRouter.post('/server/checkuserlogin', function *(next)
 {
-    console.log('/getuserinfo params = ', this.params.id);
-
-    var result = yield get_user_info( this.params.id );
+    console.log( '/checkuserlogin this.params = ', this.params, ' body = ', this.request.body );
+    let userinfo = JSON.parse( this.request.body );
+    let result = yield check_user_password( userinfo.username, userinfo.password );
+    if( result && userinfo.remember )
+    {
+        this.cookies.set('username', userinfo.username, { signed: true });
+    }
+    else
+    {
+        this.cookies.set('username', '', { signed: true });
+    }
 
     this.response.set('Access-Control-Allow-Origin', '*');
-    this.body = JSON.stringify( result[0] );
-     console.log('/getuserinfo finish');
+    this.body = JSON.stringify( result );
+    console.log('/checkuserlogin finish');
 });
 
 
@@ -79,7 +86,7 @@ myRouter.all('/server/', function *(next)
     console.log('/ccc cookie_name = ' + cookie_name);
     if( !cookie_name || 1 > cookie_name.length )
     {
-	this.cookies.set('name', 'tubie', { signed: true });
+	    this.cookies.set('name', 'tubie', { signed: true });
     }
 
     console.log('/ccc 2');
@@ -123,6 +130,35 @@ app.use(function *(next)
 
 
 
+var app = koa();
+
+//var Keygrip = require('keygrip')
+//app.keys = new Keygrip(['im a newer secret', 'i like turtle'], 'sha256');
+app.keys = ['im a newer secret', 'i like turtle'];
+/*
+app.use(Session({
+    key: 'test.sid',
+    store: RedisStore({
+        host: ,
+        port: ,
+        password: 
+    }),
+    ttl: 24*3600*1000,  //单位为 ms，可以直接写 毫秒数
+    cookie: {
+        httpOnly: true,
+        path: '/',
+        overwrite: true,
+        signed: true,
+        maxAge: null //one hour in ms
+  }
+}));
+*/
+
+app.on('error', function(err){
+    console.log('server error = ', err);
+});
+
+app.use(KoaBody({formidable:{uploadDir: __dirname}}));
 app.use(myRouter.routes());
 
 //加载客户端文件 
