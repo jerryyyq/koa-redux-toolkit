@@ -37,7 +37,7 @@ export function get_user_info ( userid )
     console.log("userid = ", userid)
     //debugger
     let sql = "SELECT * FROM user"
-    if( undefined !== userid )
+    if( undefined !== userid && 0 != userid)
         sql += " WHERE id = " + userid
 
     console.log("sql = ", sql)
@@ -54,18 +54,21 @@ export function set_user_password( userid, password )
     return mysql_query(sql);
 }
 
-export function check_user_password( username, password )
+export async function check_user_password( username, password )
 {
-    let sql = "SELECT salt, password FROM user WHERE name = '" + username + "'"
-    let result = mysql_query(sql); //await
+    let sql = "SELECT id, salt, password FROM user WHERE name = '" + username + "'"
+    let result = await mysql_query(sql);
     if( undefined == result[0] )
-        return false;
+        return {};
 
-    console.log("result[0] = ", result[0])
-    let salt = result[0].salt;
-    let password_hash = crypto.pbkdf2Sync(password, salt, ITERATION_TIMES, KEY_LENGTH).toString('hex');
-    if(result[0].password === password_hash)
-        return true;
+    console.log("result[0][0] = ", result[0][0])
+    if( undefined == result[0][0].salt && undefined == result[0][0].password )
+        return {id:result[0][0].id, showname:username};
+
+    let password_hash = crypto.pbkdf2Sync(password, result[0][0].salt, ITERATION_TIMES, KEY_LENGTH).toString('hex');
+    if(result[0][0].password === password_hash)
+        return {id:result[0][0].id, showname:username};
     else
-        return false;
+        return {};
 }
+

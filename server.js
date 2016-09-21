@@ -55,21 +55,23 @@ myRouter.get('/server/getuserinfo/:id', function *(next)
 //curl -l -H "Content-type: application/json" -X POST -d '{"username":"YYQ","password":"1234","remember":true}' http://localhost:3001/server/checkuserlogin
 myRouter.post('/server/checkuserlogin', function *(next)
 {
-    console.log( '/checkuserlogin this.params = ', this.params, ' body = ', this.request.body );
+    console.log( '/checkuserlogin this.params = ', this.params, ' body = ', this.request.body, ' session = ', this.session );
     let userinfo = JSON.parse( this.request.body );
     let result = yield check_user_password( userinfo.username, userinfo.password );
-    if( result && userinfo.remember )
+    if( result.id && userinfo.remember )
     {
-        this.cookies.set('username', userinfo.username, { signed: true });
+        this.cookies.set('id', result.id, { signed: true });
+        //this.session
+
     }
     else
     {
-        this.cookies.set('username', '', { signed: true });
+        this.cookies.set('id', '', { signed: true });
     }
 
     this.response.set('Access-Control-Allow-Origin', '*');
     this.body = JSON.stringify( result );
-    console.log('/checkuserlogin finish');
+    console.log('/checkuserlogin finish, body = ', this.body);
 });
 
 
