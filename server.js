@@ -60,13 +60,14 @@ myRouter.post('/server/checkuserlogin', function *(next)
     let result = yield check_user_password( userinfo.username, userinfo.password );
     if( result.id && userinfo.remember )
     {
-        this.cookies.set('id', result.id, { signed: true });
+        console.log('/checkuserlogin set cookies id = ', result.id);
+        this.cookies.set( 'id', result.id, {signed: true} );
         //this.session
-
     }
     else
     {
-        this.cookies.set('id', '', { signed: true });
+        this.cookies.set('id');
+        this.cookies.set('id.sig');
     }
 
     this.response.set('Access-Control-Allow-Origin', '*');
@@ -74,6 +75,17 @@ myRouter.post('/server/checkuserlogin', function *(next)
     console.log('/checkuserlogin finish, body = ', this.body);
 });
 
+myRouter.all('/server/userlogout', function *(next)
+{
+    let userid = this.cookies.get('id', {signed: true});
+    console.log( '/userlogout userid = ', userid );
+    this.cookies.set('id');
+    this.cookies.set('id.sig');
+    //this.session
+
+    this.response.set('Access-Control-Allow-Origin', '*');
+    this.body = '{}';
+});
 
 myRouter.get('/server/test/:id', function *(next)
 {

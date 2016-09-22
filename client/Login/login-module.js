@@ -80,7 +80,7 @@ function mapDispatchToProps (dispatch)
         }
 */
         let logindata = JSON.stringify( {username:e.target.name.value, password:e.target.pwd.value, remember:e.target.remember.checked} )
-        fetch( 'http://192.168.2.253:3001/server/checkuserlogin', {mode: 'cors', method: "POST", body: logindata} ).then( 
+        fetch( 'http://192.168.2.253:3001/server/checkuserlogin', {mode:'cors', method:'POST', credentials:'include', body: logindata} ).then( 
             function(res){
                 return res.json();
         })
@@ -96,7 +96,7 @@ function mapDispatchToProps (dispatch)
     handleLogout: e =>
     {
         e.preventDefault();
-        fetch( 'http://192.168.2.253:3001/server/userlogout', {mode: 'cors'} ).then( 
+        fetch( 'http://192.168.2.253:3001/server/userlogout', {mode: 'cors', credentials:'include'} ).then( 
             function(res){
                 return res.json();
         })
