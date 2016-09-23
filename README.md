@@ -18,6 +18,9 @@
 本套代码使用到的技术点包括：
 React antd界面，redux调用，react-route，组件动态加载，koa-route，登录与注销，数据库操作，数据库数据获取，cookie设置，session维护，用户口令安全存储方法。
 
+数据库安装脚本为：server/yyqtestdb.sql，通过在 mysql 内运行此脚本可以生成本套代码运行需要的数据库和用户，您也可以自己修改核安装。
+数据库的连接配置信息在：server/lib/mysql-query.js 文件内，您需要修改相关配置信息，保证能够连接上数据库。
+
 
 ## 使用说明
 
@@ -35,6 +38,10 @@ $ unzip koa-redux-toolkit.zip
 ```bash
 $ cd koa-redux-toolkit
 ```
+
+* 按照 server/yyqtestdb.sql 内容生成相关数据库内容
+* 修改 server/lib/mysql-query.js 文件内的数据库连接配置信息
+
 
 * 安装工程依赖的 node 模块
 
