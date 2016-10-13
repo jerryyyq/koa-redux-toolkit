@@ -68,7 +68,7 @@ function mapDispatchToProps (dispatch)
         handlePasswordChange: e => dispatch(setComponentProperty(SET_PASSWORD, e.target.value)),
         handleAgreeChange: e => dispatch(setComponentProperty(SET_REMEMBER, e.target.checked)),
         handleSubmit: e =>
-    {
+        {
             e.preventDefault()
             console.log('receive server data, e.target = ', e.target, ' this = ', this,
             ' name = ', e.target.name, ' userName = ', e.target.userName, ' props = ', e.target.props)
@@ -84,31 +84,31 @@ function mapDispatchToProps (dispatch)
             function (res) {
                 return res.json()
             })
-        .then(function (result) {
-            console.log('receive server data, result = ', result)
-            return dispatch(setLoginData(result, ''))
-        })
-        .catch(function (error) {
-            console.log('Request failed, error = ', error)
-            return dispatch(setLoginData({}, error))
-        })
+            .then(function (result) {
+                console.log('receive server data, result = ', result)
+                return dispatch(setLoginData(result, ''))
+            })
+            .catch(function (error) {
+                console.log('Request failed, error = ', error)
+                return dispatch(setLoginData({}, error))
+            })
         },
         handleLogout: e =>
-    {
+        {
             e.preventDefault()
             fetch('http://192.168.2.253:3001/server/userlogout', {mode: 'cors', credentials:'include'}).then(
             function (res) {
                 return res.json()
             })
-        .then(function (json) {
-            console.log('receive server data, json = ', json)
-            // global_store.store.dispatch( refresh_action(json) )
-            return dispatch(setLoginData({}, ''))
-        })
-        .catch(function (error) {
-            console.log('Request failed, error = ', error)
-            return dispatch(setLoginData({}, error))
-        })
+            .then(function (json) {
+                console.log('receive server data, json = ', json)
+                // global_store.store.dispatch( refresh_action(json) )
+                return dispatch(setLoginData({}, ''))
+            })
+            .catch(function (error) {
+                console.log('Request failed, error = ', error)
+                return dispatch(setLoginData({}, error))
+            })
         }
     }
 }
