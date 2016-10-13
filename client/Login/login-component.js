@@ -1,49 +1,46 @@
-import React, { Component, PropTypes } from 'react'
-import { connect } from 'react-redux'
-import { onLoginSubmit } from './login-module'
+import React, { Component } from 'react'
 
-import { Form, Input, Button, Checkbox } from 'antd';
+import { Form, Input, Button, Checkbox } from 'antd'
 import 'antd/dist/antd.css'
 
-const FormItem = Form.Item;
+const FormItem = Form.Item
 
 export class LoginForm extends Component
 {
-    render() 
+    render ()
     {
-        if( undefined === this.props.userinfo.showname )
+        if (undefined === this.props.userinfo.showname)
         {
             return (
-            <Form onSubmit={this.props.handleSubmit}>
-                <FormItem label="账户">
-                <Input placeholder="请输入账户名" name="name" onChange={this.props.handleNameChange} value={ this.props.userName } />
-                </FormItem>
+                <Form onSubmit={this.props.handleSubmit}>
+                    <FormItem label='账户'>
+                        <Input placeholder='请输入账户名' name='name' onChange={this.props.handleNameChange} value={this.props.userName} />
+                    </FormItem>
 
-                <FormItem label="密码">
-                <Input type="password" name="pwd" placeholder="请输入密码" onChange={this.props.handlePasswordChange} value={ this.props.password } />
-                </FormItem>
+                    <FormItem label='密码'>
+                        <Input type='password' name='pwd' placeholder='请输入密码' onChange={this.props.handlePasswordChange} value={this.props.password} />
+                    </FormItem>
 
-                <FormItem>
-                <Checkbox name="remember" onChange={this.props.handleAgreeChange} value={ this.props.remember }>记住我</Checkbox>
-                </FormItem>
+                    <FormItem>
+                        <Checkbox name='remember' onChange={this.props.handleAgreeChange} value={this.props.remember}>记住我</Checkbox>
+                    </FormItem>
 
-                <Button type="primary" htmlType="submit">登录</Button>
-            </Form>
-            );
+                    <Button type='primary' htmlType='submit'>登录</Button>
+                </Form>
+            )
         }
         else
         {
             return (
-            <Form onSubmit={this.props.handleLogout}>
-                <p> 欢迎您： {this.props.userinfo.showname}&nbsp;
-                <Button type="primary" htmlType="submit">登出</Button>
-                </p>
-            </Form>
-            );
+                <Form onSubmit={this.props.handleLogout}>
+                    <p> 欢迎您： {this.props.userinfo.showname}&nbsp;
+                        <Button type='primary' htmlType='submit'>登出</Button>
+                    </p>
+                </Form>
+            )
         }
     }
 }
-
 
 LoginForm.propTypes = {
     userName: React.PropTypes.string,
@@ -56,6 +53,5 @@ LoginForm.propTypes = {
     handleSubmit: React.PropTypes.func.isRequired,
     handleLogout: React.PropTypes.func.isRequired
 }
-
 
 export default LoginForm

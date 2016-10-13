@@ -6,105 +6,99 @@ import 'antd/dist/antd.css'
 
 const REFRESH_DATA = 'REFRESH_DATA'
 
-function refresh_action( data )
+function refresh_action (data)
 {
-  return {
-    type: REFRESH_DATA,
-    payload: data
-  }
+    return {
+        type: REFRESH_DATA,
+        payload: data
+    }
 }
 
-//////////////////////////////////////// 绑定 action 和 dispatch 到组件 ///////////////////////
+// ////////////////////////////////////// 绑定 action 和 dispatch 到组件 ///////////////////////
 const mapStateToProps = (state) => ({
     dataSource: state.user_info.data,
     columns: state.user_info.columns
-});
+})
 
-//将action的所有方法绑定到props上
-function mapDispatchToProps(dispatch) {
-    //return bindActionCreators(CounterActions, dispatch)
-    return{
+// 将action的所有方法绑定到props上
+function mapDispatchToProps (dispatch) {
+    // return bindActionCreators(CounterActions, dispatch)
+    return {
 
-    };
+    }
 }
 
-//////////////////////////////////////// Reducers /////////////////////////////////////////
-//reducer其实也是个方法而已,参数是state和action,返回值是新的state
+// ////////////////////////////////////// Reducers /////////////////////////////////////////
+// reducer其实也是个方法而已,参数是state和action,返回值是新的state
 const table_columns = [
     {
         title: 'ID',
         dataIndex: 'id',
-        key: 'id',
+        key: 'id'
     },
     {
         title: '姓名',
         dataIndex: 'name',
-        key: 'name',
+        key: 'name'
     },
     {
         title: '性别',
         dataIndex: 'sex',
-        key: 'sex',
-    } 
-];
-
+        key: 'sex'
+    }
+]
 
 const initState = { data:[{id:1, name:'z', sex:0}], columns:table_columns }
 
-
-function userinfo_reducer(state = initState, action) 
+function userinfo_reducer (state = initState, action)
 {
-  switch (action.type) {
+    switch (action.type) {
     case REFRESH_DATA:
-      return { data: action.payload, columns: state.columns }
+        return { data: action.payload, columns: state.columns }
 
     default:
-      return state
-  }
+        return state
+    }
 }
 
-
-/////////////////////////////////// 获得服务端数据 ///////////////////////////////
+// ///////////////////////////////// 获得服务端数据 ///////////////////////////////
 var get_user_info = (userid) =>
 {
-    fetch( 'http://192.168.2.253:3001/server/getuserinfo/' + userid, {mode: 'cors'} ).then( 
-        function(res){
-            return res.json();
+    fetch('http://192.168.2.253:3001/server/getuserinfo/' + userid, {mode: 'cors'}).then(
+        function (res) {
+            return res.json()
         })
-    .then(function(json){
-        console.log("receive server data, json = ", json);
-        global_store.store.dispatch( refresh_action(json) )
+    .then(function (json) {
+        console.log('receive server data, json = ', json)
+        global_store.store.dispatch(refresh_action(json))
     })
-    .catch(function(error){
-        console.log('Request failed, error = ', error);
-    });
+    .catch(function (error) {
+        console.log('Request failed, error = ', error)
+    })
 }
 
-
-
-/////////////////////////////////////// 在 store 创建对应节点，并绑定对应的 Reducer //////////////////////////
-export function injectUserInfoReducer(store)
+// ///////////////////////////////////// 在 store 创建对应节点，并绑定对应的 Reducer //////////////////////////
+export function injectUserInfoReducer (store)
 {
-    let states1 = store.getState();
-    console.log("in injectUserInfoReducer, states1 = ", states1);
-    
-    global_store.inject_reducer( {key: 'user_info', reducer: userinfo_reducer} );
+    let states1 = store.getState()
+    console.log('in injectUserInfoReducer, states1 = ', states1)
 
-    let states2 = store.getState();
-    console.log("in injectUserInfoReducer, states2 = ", states2, " global_store = ", global_store);
+    global_store.inject_reducer({key: 'user_info', reducer: userinfo_reducer})
 
+    let states2 = store.getState()
+    console.log('in injectUserInfoReducer, states2 = ', states2, ' global_store = ', global_store)
 
-    setTimeout(get_user_info("1"), 2000);
+    setTimeout(get_user_info('1'), 2000)
 }
 
-/////////////////////////////////////// 创建出绑定后的对象 //////////////////////////
+// ///////////////////////////////////// 创建出绑定后的对象 //////////////////////////
 
-export default function CreateUserTable(store) 
+export default function CreateUserTable (store)
 {
-    global_store.inject_reducer( {key: 'user_info', reducer: userinfo_reducer} );
-    console.log( " global_store.state = ", global_store.store.getState() );
-    
-    setTimeout(get_user_info("1"), 2000);
-    //通过react-redux提供的connect方法将我们需要的state中的数据和actions中的方法绑定到props上
-    return connect(mapStateToProps, mapDispatchToProps)(Table);
+    global_store.inject_reducer({key: 'user_info', reducer: userinfo_reducer})
+    console.log(' global_store.state = ', global_store.store.getState())
+
+    setTimeout(get_user_info('1'), 2000)
+    // 通过react-redux提供的connect方法将我们需要的state中的数据和actions中的方法绑定到props上
+    return connect(mapStateToProps, mapDispatchToProps)(Table)
 };
