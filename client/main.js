@@ -1,5 +1,5 @@
 import React from 'react'
-import { Router, hashHistory, useRouterHistory } from 'react-router'
+import { Router, hashHistory, browserHistory, useRouterHistory } from 'react-router'
 
 import ReactDOM from 'react-dom'
 import { Provider } from 'react-redux'
@@ -8,6 +8,10 @@ import { Provider } from 'react-redux'
 
 import global_store from './app-store'
 import appRoutes from './client-routes'
+
+import {deepOrange500} from 'material-ui/styles/colors'
+import getMuiTheme from 'material-ui/styles/getMuiTheme'
+import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
 
 // ========================================================
 // Developer Tools Setup
@@ -31,15 +35,24 @@ global_store.create_store(RootReducer, initialState)
 var appStore = global_store.store
 console.log('after create_store, global_store.store = ', appStore)
 
-const appHistory = hashHistory
+const appHistory = browserHistory   //hashHistory
 // const appHistory = useRouterHistory(createHistory)({ basename: __BASENAME__ })
 // const appHistory = useRouterHistory(createHashHistory)({ queryKey: false })
 
 // render
         // <Router history={appHistory} routes={appRoutes(appStore)} />
+
+const muiTheme = getMuiTheme({
+    palette: {
+        accent1Color: deepOrange500
+    }
+})
+
 ReactDOM.render(
     <Provider store={appStore} key='yyq-s' >
-        <Router history={appHistory} routes={appRoutes(appStore)} />
+        <MuiThemeProvider muiTheme={muiTheme}>
+            <Router history={appHistory} routes={appRoutes(appStore)} />
+        </MuiThemeProvider>
     </Provider>,
     document.getElementById('root')
 )

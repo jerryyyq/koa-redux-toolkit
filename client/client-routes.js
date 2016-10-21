@@ -1,23 +1,30 @@
 import React from 'react'
 import { Link } from 'react-router'
 import classes from './app-style.scss'
+import Header from './Header/Header-component'
 
 // import CreateCounter, {injectCounterReducer} from './Counter/counter-module'
 // import CreateUserTable, {injectUserInfoReducer} from './UserInfo/userinfo-module'
 // import CreateLogin from './Login/login-module'
 
-const MainContainer = ({ children }) => (
-    <div>
-        <h1>yangyuqi's mysql-koa-react-redux toolkit</h1>
-        <p><Link to='/'>Home</Link></p>
-        <p><Link to='/counter'>Counter</Link></p>
-        <p><Link to='/userinfo'>UserInfo</Link></p>
-        <p><Link to='/login'>Login</Link></p>
-        <div className={classes.mainContainer}>
-            { children }
+const MainContainer = ({ children }) => 
+{
+    console.log('children = ' + children)
+    console.log('{ children } = ' + { children })
+
+    return (
+        <div>
+            <h1>yangyuqi's mysql-koa-react-redux toolkit</h1>
+            <p><Link to='/'>Home</Link></p>
+            <p><Link to='/counter'>Counter</Link></p>
+            <p><Link to='/userinfo'>UserInfo</Link></p>
+            <p><Link to='/login'>Login</Link></p>
+            <div className={classes.mainContainer}>
+                { children }
+            </div>
         </div>
-    </div>
-)
+    )
+}
 
 MainContainer.propTypes = {
     children: React.PropTypes.element.isRequired
@@ -47,7 +54,8 @@ console.log("CreateChildRoute = ", CreateChildRoute);
 
 const appRoutes = (store) => ({
     path: '/',
-    component: MainContainer,
+//    component: MainContainer,
+    component: Header,
     indexRoute: Welcome,
 
     childRoutes:

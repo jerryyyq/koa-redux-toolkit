@@ -1,10 +1,12 @@
-import koa from 'koa';
+import koa from 'koa'
 import ip from 'ip'
 import Router from 'koa-router'
 import StaticRouter from 'koa-static'
 import KoaBody from 'koa-body'
-import Session from 'koa-generic-session';
-import RedisStore from 'koa-redis';
+import Session from 'koa-generic-session'
+import RedisStore from 'koa-redis'
+import convert from 'koa-convert'
+import historyApiFallback from 'koa-connect-history-api-fallback'
 
 import { get_user_info, set_user_password, check_user_password } from './server/user-info'
 
@@ -174,6 +176,24 @@ app.on('error', function(err){
 
 app.use(KoaBody({formidable:{uploadDir: __dirname}}));
 app.use(myRouter.routes());
+
+// This rewrites all routes requests to the root /index.html file
+// (ignoring file requests). If you want to implement isomorphic
+// rendering, you'll want to remove this middleware.
+console.log('historyApiFallback = ' + historyApiFallback)
+console.log('convert = ' + convert)
+
+let koa_Fallback = historyApiFallback({
+    verbose: false,
+    index: 'index.html'
+});
+
+let koa_Fallback_g = convert( koa_Fallback )
+console.log('koa_Fallback = ' + koa_Fallback)
+console.log('koa_Fallback_g = ' + koa_Fallback_g)
+
+//使客户端 url 重定向到 index.html
+app.use(koa_Fallback);
 
 //加载客户端文件 
 app.use(StaticRouter(__dirname + '/client'));
