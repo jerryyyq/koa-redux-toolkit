@@ -12,6 +12,7 @@ import appRoutes from './client-routes'
 import {deepOrange500} from 'material-ui/styles/colors'
 import getMuiTheme from 'material-ui/styles/getMuiTheme'
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
+import injectTapEventPlugin from 'react-tap-event-plugin'
 
 // ========================================================
 // Developer Tools Setup
@@ -43,10 +44,9 @@ const appHistory = browserHistory   //hashHistory
         // <Router history={appHistory} routes={appRoutes(appStore)} />
 
 const muiTheme = getMuiTheme({
-    palette: {
-        accent1Color: deepOrange500
-    }
+    palette: {accent1Color: deepOrange500}
 })
+injectTapEventPlugin();
 
 ReactDOM.render(
     <Provider store={appStore} key='yyq-s' >
