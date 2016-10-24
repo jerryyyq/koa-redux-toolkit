@@ -14,9 +14,20 @@ const styles = {
         fontWeight: 400,
     },
 }
-const Header = ( {children} ) =>
+const Header = ( {history, children}, context ) =>
 {
     console.log( 'Header render children = ' + children )
+    console.log( 'Header history = ' + history )
+    console.log( 'Header context = ' + context )
+
+    const handleClick = () =>
+    {
+        alert('click button! ' + test.value);
+        //以下3种写法都可以，但是 history 已不推荐再使用，所以不要再用了
+        //window.location.href = '/userinfo/' + test.value;
+        //history.replace('/userinfo/' + test.value);
+        context.router.replace('/userinfo/' + test.value);
+    }
 
     return (
         <div>
@@ -29,6 +40,9 @@ const Header = ( {children} ) =>
                 <FlatButton label='UserInfo' href='/userinfo' primary={true} />
                 <ToolbarSeparator />
                 <FlatButton label='Login' href='/login' primary={true} />
+                <ToolbarSeparator />
+                <input type='text' id='test' width='100' />
+                <FlatButton label='Click me' onClick={handleClick} primary={true} />                
             </Toolbar>
             
             <Tabs>
@@ -51,7 +65,12 @@ const Header = ( {children} ) =>
 }
 
 Header.propTypes = {
-    children: React.PropTypes.element.isRequired
+    children: React.PropTypes.element,
+    history: React.PropTypes.object
+}
+
+Header.contextTypes = {
+    router: React.PropTypes.func.isRequired
 }
 
 export default Header

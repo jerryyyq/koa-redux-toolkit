@@ -75,14 +75,15 @@ const appRoutes = (store) => ({
 
         // CreateChildRoute('userinfo', './UserInfo/userinfo-module', store),
         {
-            path: 'userinfo',
+            path: 'userinfo(/:id)',
             getComponent: (nextState, cb) =>
             {
                 require.ensure([], (require) =>
                 {
                     var ItemCreate = require('./UserInfo/userinfo-module').default
                     console.log('ItemCreate = ', ItemCreate)
-                    cb(null, ItemCreate(store))
+                    console.log('nextState.params = ', nextState.params)                    
+                    cb(null, ItemCreate(store, nextState.params.id))
                 })
             }
         },
