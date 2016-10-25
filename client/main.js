@@ -36,7 +36,7 @@ global_store.create_store(RootReducer, initialState)
 var appStore = global_store.store
 console.log('after create_store, global_store.store = ', appStore)
 
-const appHistory = browserHistory   //hashHistory
+const appHistory = browserHistory   // hashHistory
 // const appHistory = useRouterHistory(createHistory)({ basename: __BASENAME__ })
 // const appHistory = useRouterHistory(createHashHistory)({ queryKey: false })
 
@@ -46,12 +46,12 @@ const appHistory = browserHistory   //hashHistory
 const muiTheme = getMuiTheme({
     palette: {accent1Color: deepOrange500}
 })
-injectTapEventPlugin();
+injectTapEventPlugin()
 
 ReactDOM.render(
-    <Provider store={appStore} key='yyq-s' >
-        <MuiThemeProvider muiTheme={muiTheme}>
-            <Router history={appHistory} routes={appRoutes(appStore)} />
+    <Provider store = { appStore } key = 'yyq-s' >
+        <MuiThemeProvider muiTheme = { muiTheme }>
+            <Router history = { appHistory } routes = { appRoutes(appStore) } />
         </MuiThemeProvider>
     </Provider>,
     document.getElementById('root')

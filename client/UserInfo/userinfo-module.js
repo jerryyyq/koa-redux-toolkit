@@ -3,7 +3,6 @@ import global_store from '../app-store'
 import fetch from 'node-fetch'
 import {Table} from 'antd'
 import 'antd/dist/antd.css'
-import React from 'react'
 
 const REFRESH_DATA = 'REFRESH_DATA'
 
@@ -93,17 +92,12 @@ export function injectUserInfoReducer (store)
 }
 
 // ///////////////////////////////////// 创建出绑定后的对象 //////////////////////////
-//Table.contextTypes = {
-//      router: React.PropTypes.func.isRequired,
-//}
-
-export default function CreateUserTable (store, id)
+export default function CreateUserTable (store)
 {
     global_store.inject_reducer({key: 'user_info', reducer: userinfo_reducer})
     console.log(' global_store.state = ', global_store.store.getState())
-    //console.log(' getCurrentParams = ', this.context.router.getCurrentParams())
-    //console.log(' this.props.params.id = ', this.props.params.id)
-    console.log(' id = ', id)
+    // console.log(' getCurrentParams = ', this.context.router.getCurrentParams())
+    // console.log(' this.props.params.id = ', this.props.params.id)
 
 //    this.context.should.have.property('router')
 //    this.context.router.getCurrentPath().should.equal('/userinfo');
@@ -112,7 +106,7 @@ export default function CreateUserTable (store, id)
 //    this.context.router.getCurrentParams().should.have.property('id')
 //    console.log(' id = ', this.context.router.getCurrentParams()['id'])
 
-    setTimeout(get_user_info(id), 2000)
+    setTimeout( get_user_info(0), 2000 )
     // 通过react-redux提供的connect方法将我们需要的state中的数据和actions中的方法绑定到props上
     return connect(mapStateToProps, mapDispatchToProps)(Table)
 };

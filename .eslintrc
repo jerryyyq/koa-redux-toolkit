@@ -32,7 +32,13 @@
         "eqeqeq": ["warn", "smart"],
         "curly": ["error", "multi-or-nest"],
         "yoda": ["error", "always"],
+        "no-multiple-empty-lines": ["error", { "max": 4, "maxEOF": 1 }],
+        "object-property-newline": ["error", { "allowMultiplePropertiesPerLine": true }],
+        "space-in-parens": ["off", "always"],
+        "no-return-assign": "warn",
         "react/jsx-indent": ["error", 4],
-        "react/jsx-indent-props": ["error", 4]
+        "react/jsx-indent-props": ["error", 4],
+        "react/jsx-equals-spacing": ["error", "always"],
+        "react/jsx-curly-spacing": ["error", "always"]
     }
 }

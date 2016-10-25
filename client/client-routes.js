@@ -7,7 +7,7 @@ import Header from './Header/Header-component'
 // import CreateUserTable, {injectUserInfoReducer} from './UserInfo/userinfo-module'
 // import CreateLogin from './Login/login-module'
 
-const MainContainer = ({ children }) => 
+const MainContainer = ({ children }) =>
 {
     console.log('children = ' + children)
     console.log('{ children } = ' + { children })
@@ -15,11 +15,11 @@ const MainContainer = ({ children }) =>
     return (
         <div>
             <h1>yangyuqi's mysql-koa-react-redux toolkit</h1>
-            <p><Link to='/'>Home</Link></p>
-            <p><Link to='/counter'>Counter</Link></p>
-            <p><Link to='/userinfo'>UserInfo</Link></p>
-            <p><Link to='/login'>Login</Link></p>
-            <div className={classes.mainContainer}>
+            <p><Link to = '/'>Home</Link></p>
+            <p><Link to = '/counter'>Counter</Link></p>
+            <p><Link to = '/userinfo'>UserInfo</Link></p>
+            <p><Link to = '/login'>Login</Link></p>
+            <div className = { classes.mainContainer }>
                 { children }
             </div>
         </div>
@@ -61,30 +61,29 @@ const appRoutes = (store) => ({
     childRoutes:
     [
         {
-            path: 'counter',
+            path: 'counter(/:id)',
             getComponent: (nextState, cb) =>
             {
                 require.ensure([], (require) =>
                 {
                     var ItemCreate = require('./Counter/counter-module').default
-                    console.log('ItemCreate = ', ItemCreate)
+                    console.log( 'ItemCreate = ', ItemCreate )
                     cb(null, ItemCreate(store))
-                })
+                }, 'counter')
             }
         },
 
         // CreateChildRoute('userinfo', './UserInfo/userinfo-module', store),
         {
-            path: 'userinfo(/:id)',
+            path: 'userinfo',
             getComponent: (nextState, cb) =>
             {
                 require.ensure([], (require) =>
                 {
                     var ItemCreate = require('./UserInfo/userinfo-module').default
                     console.log('ItemCreate = ', ItemCreate)
-                    console.log('nextState.params = ', nextState.params)                    
                     cb(null, ItemCreate(store, nextState.params.id))
-                })
+                }, 'userinfo')
             }
         },
 
@@ -97,7 +96,7 @@ const appRoutes = (store) => ({
                     var ItemCreate = require('./Login/login-module').default
                     console.log('ItemCreate = ', ItemCreate)
                     cb(null, ItemCreate(store))
-                })
+                }, 'login')
             }
         }
     ]

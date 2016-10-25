@@ -3,7 +3,7 @@ import FlatButton from 'material-ui/FlatButton'
 import {Toolbar, ToolbarSeparator} from 'material-ui/Toolbar'
 import classes from '../app-style.scss'
 
-import {Tabs, Tab} from 'material-ui/Tabs';
+import {Tabs, Tab} from 'material-ui/Tabs'
 
 const styles = {
     toolBar: {backgroundColor: 'rgb(255,255,255)'},
@@ -11,56 +11,56 @@ const styles = {
         fontSize: 24,
         paddingTop: 16,
         marginBottom: 12,
-        fontWeight: 400,
-    },
+        fontWeight: 400
+    }
 }
 const Header = ( {history, children}, context ) =>
 {
-    console.log( 'Header render children = ' + children )
-    console.log( 'Header history = ' + history )
-    console.log( 'Header context = ' + context )
+    console.log( 'Header render children = ', children )
+    console.log( 'Header history = ', history )
+    console.log( 'Header context = ', context )
 
     const handleClick = () =>
     {
-        alert('click button! ' + test.value);
-        //以下3种写法都可以，但是 history 已不推荐再使用，所以不要再用了
-        //window.location.href = '/userinfo/' + test.value;
-        //history.replace('/userinfo/' + test.value);
-        context.router.replace('/userinfo/' + test.value);
+        alert('click button! ' + test.value)
+        // 以下3种写法都可以，但是 history 已不推荐再使用，所以不要再用了
+        // window.location.href = '/userinfo/' + test.value;
+        // history.replace('/userinfo/' + test.value);
+        context.router.push('/counter/' + test.value)
     }
 
     return (
         <div>
             <h1>yangyuqi's mysql-koa-react-redux toolkit</h1>
-            <Toolbar style={styles.toolBar}>
-                <FlatButton label='Home' href='/' primary={true} />
+            <Toolbar style = { styles.toolBar }>
+                <FlatButton label = 'Home' href = '/' primary />
                 <ToolbarSeparator />
-                <FlatButton label='Counter' href='/counter' primary={true} />
+                <FlatButton label = 'Counter' href = '/counter' primary />
                 <ToolbarSeparator />
-                <FlatButton label='UserInfo' href='/userinfo' primary={true} />
+                <FlatButton label = 'UserInfo' href = '/userinfo' primary />
                 <ToolbarSeparator />
-                <FlatButton label='Login' href='/login' primary={true} />
+                <FlatButton label = 'Login' href = '/login' primary />
                 <ToolbarSeparator />
-                <input type='text' id='test' width='100' />
-                <FlatButton label='Click me' onClick={handleClick} primary={true} />                
+                <input type = 'text' id = 'test' width = '100' />
+                <FlatButton label = 'Click me' onClick = { handleClick } primary />
             </Toolbar>
-            
+
             <Tabs>
-                <Tab label="Item 1" ><div>
-                    <h2 style={styles.headline}>Tab 1</h2>
+                <Tab label = 'Item 1' ><div>
+                    <h2 style = { styles.headline }>Tab 1</h2>
                 </div></Tab>
-                <Tab label="Item 2" ><div>
-                    <h2 style={styles.headline}>Tab 2</h2>
+                <Tab label = 'Item 2' ><div>
+                    <h2 style = { styles.headline }>Tab 2</h2>
                 </div></Tab>
-                <Tab label="Item 3" ><div>
-                    <h2 style={styles.headline}>Tab 3</h2>
+                <Tab label = 'Item 3' ><div>
+                    <h2 style = { styles.headline }>Tab 3</h2>
                 </div></Tab>
             </Tabs>
 
-            <div className={classes.mainContainer}>
+            <div className = { classes.mainContainer }>
                 { children }
             </div>
-        </div>        
+        </div>
     )
 }
 
@@ -70,7 +70,7 @@ Header.propTypes = {
 }
 
 Header.contextTypes = {
-    router: React.PropTypes.func.isRequired
+    router: React.PropTypes.object.isRequired
 }
 
 export default Header

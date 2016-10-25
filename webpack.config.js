@@ -11,6 +11,7 @@ module.exports = {
     //入口文件输出配置
     output: {
         path: './client',
+        publicPath: '/',
         filename: 'bundle.js'
     },
     module: {
